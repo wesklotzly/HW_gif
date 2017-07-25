@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Giphy Animals</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<h1>Giphy Animals</h1>
+
+
+<body>
+  <div id="buttons">
+    <button data-animal="Cat">
+      Cat
+    </button>
+    <button data-animal="Dog">
+      Dog
+    </button>
+    <button data-animal="Giraffe">Giraffe
+    </button>
+
+    <form id="searchForm">
+  			<label for="searchTerm">Search Terms: </label>
+  			<br>
+  			<input type="text" id="searchTerm">
+  			<br>
+  		<button class="btn btn-primary" id="searchButton" type="submit" value="Search">Add Animal</button>
+    </form>
+
+  </div>
+  <div id="gifs">
+  </div>
+
+<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script type="text/javascript">
+    
+
+    $("button").on("click", function() {
+      var animal = $(this).attr("data-animal");
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
+        animal + "&api_key=99a5afc5be924cf38ffb6af33bc6502a&limit=5";
+
+      $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        .done(function(response) {
+          var results = response.data;
+
+          for (var i = 0; i < results.length; i++) {
+            var gifDiv = $("<div class='item'>");
+
+            var a = $("<button>");
+            a.addClass("animal");
+            a.attr("data-animal", results[i]);
+            a.text(results[i]);
+
+
+            var animalImage = $("<img>");
+            animalImage.attr("src", results[i].images.fixed_height.url);
+
+            gifDiv.prepend(p);
+            gifDiv.prepend(animalImage);
+
+            $("#gifs").prepend(gifDiv);
+          }
+        });
+    });
+  </script>
+
+
+
+
+
+</html>
